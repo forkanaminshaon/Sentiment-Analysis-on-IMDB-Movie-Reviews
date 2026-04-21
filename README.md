@@ -4,48 +4,52 @@ This project explores the evolution of NLP techniques by comparing three distinc
 
 The core objective was to analyze the trade-offs between computational efficiency and classification accuracy in a real-world sentiment analysis pipeline.
 
-## 🚀 Key Findings
-| Model | Accuracy | Training Time | Efficiency |
-| :--- | :--- | :--- | :--- |
-| **BERT (Fine-tuned)** | **89.0%** | **~587s** | High Compute (GPU) |
-| **TF-IDF + LogReg** | **88.6%** | **~5.2s** | High Efficiency (CPU) |
-| **Word2Vec (Avg)** | **84.0%** | **~42.8s** | Medium |
+## 📊 Key Findings
+Based on the experimental results, **TF-IDF** remains a formidable baseline, while **BERT** provides superior recall for complex sentiment patterns.
+
+| Model | Accuracy | Precision | Recall | F1-Score | Speed (1/Time) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **BERT** | 86.0% | 0.811 | **0.939** | 0.870 | Lowest |
+| **TF-IDF** | **88.6%** | **0.893** | 0.877 | **0.885** | **Highest** |
+| **Word2Vec** | 84.0% | 0.846 | 0.833 | 0.839 | Medium |
 
 ## 🛠️ Project Architecture
-The project is divided into three primary modeling approaches to understand how text representation affects downstream performance:
 
-### 1. Traditional Statistical ML (TF-IDF)
-* **Vectorization:** Term Frequency-Inverse Document Frequency.
-* **Classifier:** Logistic Regression.
-* **Insight:** Highly effective for reviews with distinct polarity markers (e.g., "amazing", "awful"). It remains a gold standard for baseline efficiency.
+### 1. Exploratory Data Analysis (EDA)
+Analysis of the training set revealed a mean review length of **228.1 words**. The review lengths are consistent across training, validation, and test splits, ensuring a reliable evaluation framework.
 
-### 2. Static Word Embeddings (Word2Vec)
-* **Vectorization:** Averaged 100-dimensional word vectors trained on the training corpus.
-* **Insight:** Suffered from the loss of word order and syntactic structure during the averaging process, highlighting the limitations of non-contextual embeddings.
+![Review Length Distribution](1.png)
 
-### 3. Transformer-Based Deep Learning (BERT)
-* **Architecture:** `bert-base-uncased` fine-tuned with a custom classification head.
-* **Insight:** Achieved the highest accuracy by utilizing bidirectional self-attention to understand context, negations, and complex linguistic nuances.
+### 2. Modeling Approaches
+* **TF-IDF + Logistic Regression:** Utilizes statistical frequency. It achieved the highest overall precision, proving excellent for clearly defined sentiment.
+* **Word2Vec (Average Embeddings):** Represents reviews through aggregated word vectors. While capturing semantic meaning, it suffered from the loss of word order.
+* **BERT (Fine-tuned):** Leveraging a transformer architecture, BERT achieved the highest Recall (0.939), identifying positive reviews that simpler models missed.
 
-## 📈 Performance Analysis
-As an Applied Mathematics background professional, I focused on the **Efficiency Paradox**: While **BERT** is the most accurate model, the **TF-IDF** approach achieved 99.5% of BERT's performance while being over **110x faster** to train. This proves that for high-throughput production systems, "simpler" models often provide a superior ROI.
+## 📈 Performance Visualization
 
-### Common Error Patterns
-* **Sarcasm:** All models struggled with phrases like *"A masterpiece of cinematic failure."*
-* **Mixed Sentiment:** Sentiments like *"Great acting but a terrible plot"* often resulted in neutral-weighted errors.
+### Model Performance Radar
+The radar chart highlights the massive trade-off between **Speed** and **Predictive Power**. While BERT dominates in Recall, TF-IDF dominates in Efficiency (Speed) and Precision.
+
+![Model Performance Radar](3.png)
+
+### Confusion Matrices
+The confusion matrices show that BERT has a slight bias toward predicting the positive class (high True Positives, but higher False Positives compared to TF-IDF).
+
+![Confusion Matrices Comparison](2.png)
 
 ## 📁 Repository Structure
-* `IMDB_Sentiment_Analysis - Claude.ipynb`: Core implementation notebook.
-* `Sentiment Analysis on IMDB Movie Reviews.pdf`: Detailed project report and analysis.
-* `Transformers Papers.pdf`: Academic references for the architectures used.
-* `1.png`, `2.png`, `3.png`: Performance visualizations and confusion matrices.
+* `IMDB_Sentiment_Analysis.ipynb`: Main implementation notebook.
+* `Sentiment Analysis on IMDB Movie Reviews.pdf`: Detailed project report.
+* `Transformers Papers.pdf`: Academic reference for the BERT architecture.
+* `1.png`, `2.png`, `3.png`: Performance visualizations used in this README.
 
 ## ⚙️ Tech Stack
-* **Languages:** Python
-* **Libraries:** PyTorch, Hugging Face Transformers, Scikit-learn, Gensim, Matplotlib, Seaborn
+* **NLP:** Hugging Face Transformers, Gensim (Word2Vec), Scikit-learn
+* **Deep Learning:** PyTorch
+* **Visualization:** Matplotlib, Seaborn
 * **Environment:** Google Colab (GPU Accelerated)
 
 ---
 **Author:** Forkan Amin Shaon  
-**Profile:** Data Analyst | Machine Learning Enthusiast  
-**Education:** B.Sc. in Applied Mathematics | M.Sc. in Data Science (Candidate)
+**Background:** B.Sc. in Applied Mathematics | M.Sc. in Data Science (Candidate)  
+**Goal:** Transforming raw data into intelligent business insights.
